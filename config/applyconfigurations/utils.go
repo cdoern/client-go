@@ -39,8 +39,6 @@ func ForKind(kind schema.GroupVersionKind) interface{} {
 		return &configv1.AuthenticationSpecApplyConfiguration{}
 	case v1.SchemeGroupVersion.WithKind("AuthenticationStatus"):
 		return &configv1.AuthenticationStatusApplyConfiguration{}
-	case v1.SchemeGroupVersion.WithKind("AWSDNSSpec"):
-		return &configv1.AWSDNSSpecApplyConfiguration{}
 	case v1.SchemeGroupVersion.WithKind("AWSIngressSpec"):
 		return &configv1.AWSIngressSpecApplyConfiguration{}
 	case v1.SchemeGroupVersion.WithKind("AWSPlatformSpec"):
@@ -119,8 +117,6 @@ func ForKind(kind schema.GroupVersionKind) interface{} {
 		return &configv1.DeprecatedWebhookTokenAuthenticatorApplyConfiguration{}
 	case v1.SchemeGroupVersion.WithKind("DNS"):
 		return &configv1.DNSApplyConfiguration{}
-	case v1.SchemeGroupVersion.WithKind("DNSPlatformSpec"):
-		return &configv1.DNSPlatformSpecApplyConfiguration{}
 	case v1.SchemeGroupVersion.WithKind("DNSSpec"):
 		return &configv1.DNSSpecApplyConfiguration{}
 	case v1.SchemeGroupVersion.WithKind("DNSZone"):
