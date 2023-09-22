@@ -56,12 +56,6 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace (
-	github.com/openshift/api => github.com/jkyros/api v0.0.0-20230811160037-ce1b46d51c0d
-	k8s.io/code-generator => github.com/openshift/kubernetes-code-generator v0.0.0-20220822200235-042483082c5e
-	k8s.io/kube-openapi => github.com/openshift/kube-openapi v0.0.0-20230324164143-98c122c21a89
-)
-
 // v3.9.0 is the only tag in openshift/client-go and it was created before
 // go.mod was introduced. We retract it so that go command don't select it
 // automatically when resolving versions like @latest.
@@ -72,3 +66,5 @@ retract v3.9.0+incompatible
 retract v0.0.1
 
 replace k8s.io/kube-openapi => github.com/openshift/kube-openapi v0.0.0-20230816122517-ffc8f001abb0
+
+replace github.com/openshift/api => github.com/cdoern/api v0.0.0-20231005133555-eb1d410b3cc5

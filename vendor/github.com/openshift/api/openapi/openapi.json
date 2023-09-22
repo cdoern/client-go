@@ -7103,7 +7103,7 @@
           }
         },
         "internalRegistryHostname": {
-          "description": "internalRegistryHostname sets the hostname for the default internal image registry. The value must be in \"hostname[:port]\" format. This value is set by the image registry operator which controls the internal registry hostname. For backward compatibility, users can still use OPENSHIFT_DEFAULT_REGISTRY environment variable but this setting overrides the environment variable.",
+          "description": "internalRegistryHostname sets the hostname for the default internal image registry. The value must be in \"hostname[:port]\" format. This value is set by the image registry operator which controls the internal registry hostname.",
           "type": "string"
         }
       }
@@ -13340,6 +13340,7 @@
           "type": "string"
         },
         "metadata": {
+          "description": "metadata is the standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
           "default": {},
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta"
         },
@@ -13368,6 +13369,7 @@
           "type": "string"
         },
         "items": {
+          "description": "items contains a list of DataGather resources.",
           "type": "array",
           "items": {
             "default": {},
@@ -13379,12 +13381,14 @@
           "type": "string"
         },
         "metadata": {
+          "description": "metadata is the standard list's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata",
           "default": {},
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ListMeta"
         }
       }
     },
     "com.github.openshift.api.insights.v1alpha1.DataGatherSpec": {
+      "description": "DataGatherSpec contains the configuration for the DataGather.",
       "type": "object",
       "properties": {
         "dataPolicy": {
@@ -13403,6 +13407,7 @@
       }
     },
     "com.github.openshift.api.insights.v1alpha1.DataGatherStatus": {
+      "description": "DataGatherStatus contains information relating to the DataGather state.",
       "type": "object",
       "properties": {
         "conditions": {
@@ -13768,7 +13773,7 @@
           }
         },
         "internalRegistryHostname": {
-          "description": "internalRegistryHostname sets the hostname for the default internal image registry. The value must be in \"hostname[:port]\" format. For backward compatibility, users can still use OPENSHIFT_DEFAULT_REGISTRY environment variable but this setting overrides the environment variable.",
+          "description": "internalRegistryHostname sets the hostname for the default internal image registry. The value must be in \"hostname[:port]\" format.",
           "type": "string",
           "default": ""
         }
@@ -15141,7 +15146,7 @@
           "type": "string"
         },
         "internalRegistryHostname": {
-          "description": "InternalRegistryHostname sets the hostname for the default internal image registry. The value must be in \"hostname[:port]\" format. For backward compatibility, users can still use OPENSHIFT_DEFAULT_REGISTRY environment variable but this setting overrides the environment variable.",
+          "description": "InternalRegistryHostname sets the hostname for the default internal image registry. The value must be in \"hostname[:port]\" format.",
           "type": "string"
         },
         "maxImagesBulkImportedPerRepository": {
@@ -22856,7 +22861,7 @@
           }
         },
         "internalRegistryHostname": {
-          "description": "internalRegistryHostname sets the hostname for the default internal image registry. The value must be in \"hostname[:port]\" format. For backward compatibility, users can still use OPENSHIFT_DEFAULT_REGISTRY environment variable but this setting overrides the environment variable.",
+          "description": "internalRegistryHostname sets the hostname for the default internal image registry. The value must be in \"hostname[:port]\" format.",
           "type": "string",
           "default": ""
         },

@@ -74,6 +74,7 @@ spec:
                   type: array
                   items:
                     type: string
+                  x-kubernetes-list-type: atomic
                 fips:
                   description: fips controls FIPS mode
                   type: boolean
@@ -83,6 +84,7 @@ spec:
                   items:
                     type: string
                   nullable: true
+                  x-kubernetes-list-type: atomic
                 kernelType:
                   description: kernelType contains which kernel we want to be running like default (traditional), realtime.
                   type: string

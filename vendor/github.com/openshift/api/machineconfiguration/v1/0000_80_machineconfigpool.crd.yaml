@@ -239,6 +239,7 @@ spec:
                       subject:
                         description: subject is the subject of the certificate
                         type: string
+                  x-kubernetes-list-type: atomic
                 conditions:
                   description: conditions represents the latest available observations of current state.
                   type: array
@@ -263,6 +264,7 @@ spec:
                       type:
                         description: type of the condition, currently ('Done', 'Updating', 'Failed').
                         type: string
+                  x-kubernetes-list-type: atomic
                 configuration:
                   description: configuration represents the current MachineConfig object for the machine config pool.
                   type: object

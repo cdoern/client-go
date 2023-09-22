@@ -64,6 +64,7 @@ function generateApplyConfiguration(){
     applyconfigurationgen_external_apis_csv="$(codegen::join , "${FQ_APIS[@]}")"
     applyconfigurations_package="${OUTPUT_PKG}/${CLIENTSET_PKG_NAME:-applyconfigurations}"
     ${APPLYCONFIGURATION_GEN}  \
+      -v 4 \
       --output-package "${applyconfigurations_package}" \
       --input-dirs "${applyconfigurationgen_external_apis_csv}" \
       --external-applyconfigurations k8s.io/api/core/v1.ObjectReference:k8s.io/client-go/applyconfigurations/core/v1 \
