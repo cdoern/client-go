@@ -55,7 +55,26 @@ function generateApplyConfiguration(){
       done
     done
 
-    echo "Generating applyconfigurations"
+   if [ "$OUTPUT_PKG" == "github.com/openshift/client-go/machineconfiguration" ] 
+   then
+    # TODO(jkyros): this is a temporary hack to ensure proper generation until the MCO can sort
+    # out their embedded corev1.ObjectReference in MachineConfigPoolStatusConfiguration, which needs
+    # to be resolved by the end of release-4.15 so this hack can be removed
+    echo "Generating applyconfigurations specifically for MCO"
+    applyconfigurationgen_external_apis_csv="$(codegen::join , "${FQ_APIS[@]}")"
+    applyconfigurations_package="${OUTPUT_PKG}/${CLIENTSET_PKG_NAME:-applyconfigurations}"
+    ${APPLYCONFIGURATION_GEN}  \
+      -v 4 \
+      --output-package "${applyconfigurations_package}" \
+      --input-dirs "${applyconfigurationgen_external_apis_csv}" \
+      --external-applyconfigurations k8s.io/api/core/v1.ObjectReference:k8s.io/client-go/applyconfigurations/core/v1 \
+      --external-applyconfigurations github.com/openshift/api/operator/v1.OperatorSpec:github.com/openshift/client-go/operator/applyconfigurations/operator/v1 \
+      --external-applyconfigurations github.com/openshift/api/operator/v1.OperatorStatus:github.com/openshift/client-go/operator/applyconfigurations/operator/v1 \
+      --external-applyconfigurations github.com/openshift/api/operator/v1.OperatorCondition:github.com/openshift/client-go/operator/applyconfigurations/operator/v1 \
+      --external-applyconfigurations github.com/openshift/api/operator/v1.GenerationStatus:github.com/openshift/client-go/operator/applyconfigurations/operator/v1 \
+      "$@"
+   else
+    echo "Generating applyconfigurations for $OUTPUT_PKG"
     applyconfigurationgen_external_apis_csv="$(codegen::join , "${FQ_APIS[@]}")"
     applyconfigurations_package="${OUTPUT_PKG}/${CLIENTSET_PKG_NAME:-applyconfigurations}"
     ${APPLYCONFIGURATION_GEN}  \
@@ -66,12 +85,41 @@ function generateApplyConfiguration(){
       --external-applyconfigurations github.com/openshift/api/operator/v1.OperatorCondition:github.com/openshift/client-go/operator/applyconfigurations/operator/v1 \
       --external-applyconfigurations github.com/openshift/api/operator/v1.GenerationStatus:github.com/openshift/client-go/operator/applyconfigurations/operator/v1 \
       "$@"
+   fi
+
+
 }
 
 # Until we get https://github.com/kubernetes/kubernetes/pull/120877 merged we need to
 # explicitly set these two variables which are not defaulted properly in generate-internal-groups.sh
 export CLIENTSET_PKG=clientset
 export CLIENTSET_NAME=versioned
+
+bash ${CODEGEN_PKG}/generate-groups.sh "lister,informer" \
+    github.com/openshift/client-go/machineconfiguration \
+    github.com/openshift/api \
+    "machineconfiguration:v1,v1alpha1" \
+    --go-header-file ${SCRIPT_ROOT}/hack/boilerplate.txt \
+    --plural-exceptions=DNS:DNSes,DNSList:DNSList,Endpoints:Endpoints,Features:Features,FeaturesList:FeaturesList,SecurityContextConstraints:SecurityContextConstraints \
+    --trim-path-prefix github.com/openshift/client-go \
+    ${verify}
+  generateApplyConfiguration \
+    github.com/openshift/client-go/machineconfiguration \
+    github.com/openshift/api \
+    "machineconfiguration:v1,v1alpha1" \
+    --go-header-file ${SCRIPT_ROOT}/hack/boilerplate.txt \
+    --openapi-schema ./vendor/github.com/openshift/api/openapi/openapi.json \
+    --trim-path-prefix github.com/openshift/client-go \
+    ${verify}
+  bash ${CODEGEN_PKG}/generate-groups.sh "client" \
+    github.com/openshift/client-go/machineconfiguration \
+    github.com/openshift/api \
+    "machineconfiguration:v1,v1alpha1" \
+    --go-header-file ${SCRIPT_ROOT}/hack/boilerplate.txt \
+    --plural-exceptions=DNS:DNSes,DNSList:DNSList,Endpoints:Endpoints,Features:Features,FeaturesList:FeaturesList,SecurityContextConstraints:SecurityContextConstraints \
+    --apply-configuration-package github.com/openshift/client-go/machineconfiguration/applyconfigurations \
+    --trim-path-prefix github.com/openshift/client-go \
+    ${verify}
 
 for group in apiserver apps authorization build cloudnetwork image imageregistry network oauth project quota route samples security securityinternal template user; do
   bash ${CODEGEN_PKG}/generate-groups.sh "lister,informer" \
